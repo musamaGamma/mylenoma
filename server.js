@@ -1,21 +1,16 @@
-import express from 'express'
-import expressLayouts from 'express-ejs-layouts'
-import mongoose from 'mongoose'
-import helmet from 'helmet'
-import morgan from 'morgan'
-import path from 'path'
-import dotenv from 'dotenv'
 
-
-dotenv.config()
-
-//import routes
-import indexRoute from './routes/index.js'
-
+const express = require("express")
+const expressLayouts = require("express-ejs-layouts")
+const mongoose = require("mongoose")
+const helmet = require("helmet")
 
 const app = express()
 
-const __dirname = path.resolve()
+if(process.env.NODE_ENV !== "production") {
+    require("dotenv").config()
+    const morgan = require("morgan")
+    app.use(morgan("dev"))
+}
 
 //app settings
 app.set("view engine", "ejs")
@@ -33,10 +28,11 @@ app.use(express.static("public"))
  .catch(err => console.log(err.message))
 
 //setting middlewares
-app.use(morgan("dev"))
+
+
 app.use(helmet())
 //endpoint routes
-app.use("/", indexRoute)
+app.use("/", require("./routes/index"))
 
 const port = process.env.PORT || 5000
 app.listen(port, ()=> console.log(`listening on port ${port}`))
