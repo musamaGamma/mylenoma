@@ -22,17 +22,18 @@ app.use(express.static("public"))
 
 
 
+
 //db settings
  mongoose.connect(process.env.MONGO_URI, {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
  .then(()=> console.log("connected to database"))
  .catch(err => console.log(err.message))
 
 //setting middlewares
-
-
 app.use(helmet())
+app.use(express.urlencoded({limit: "10mb", extended: false}))
 //endpoint routes
 app.use("/", require("./routes/index"))
+app.use("/authors", require("./routes/authors"))
 
 const port = process.env.PORT || 5000
 app.listen(port, ()=> console.log(`listening on port ${port}`))
