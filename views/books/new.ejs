@@ -1,6 +1,7 @@
 <h2>new book</h2>
 
-<form action="/books" method="POST" enctype="multipart/form-data">
+<%- include("../partials/_errorMessage") %> 
+<form action="/books" method="POST" >
   <div>
     <label for="title">Title</label>
     <input required type="text" name="title" id="title" />
@@ -8,7 +9,7 @@
 
   <div>
     <select required name="author">
-      <% authors?.forEach(author => { %> <% if (author.id === book.author) { %>
+      <% authors.forEach(author => { %> <% if (author.id === book.author) { %>
       <option selected label="<%= author.name %> " value="<%= author.id %>">
         <% } else {%>
       </option>
@@ -23,15 +24,15 @@
   <div>
     <label for="publishDate">Publish Date</label>
     <input required type="date" name="publishDate" id="publishDate" value="<%=
-    book.publishDate && book.publishDate.toISOString().split("T")[0] %> ">
+    book.publishDate && book.publishDate.toISOString().split("T")[0] %>">
   </div>
   <div>
       <label for="pageCount">Page Count</label>
-      <input required type="number" name="pageCount" id="pageCount" min="1" value="<%= book.pageCount %> ">
+      <input required type="number" name="pageCount" id="pageCount" min="1" value="<%= book.pageCount %>">
   </div>
 <div>
     <label for="cover">Cover</label>
-    <input type="file" name="cover" id="cover" >
+    <input type="file" name="cover" id="cover" class="filepond">
 </div>
 <div>
     <label for="description">Description</label>

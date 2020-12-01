@@ -29,7 +29,7 @@ app.use(express.static("public"))
  .catch(err => console.log(err.message))
 
 //setting middlewares
-app.use(helmet())
+// app.use(helmet())
 app.use(express.urlencoded({limit: "10mb", extended: false}))
 app.use(express.json())
 //endpoint routes
