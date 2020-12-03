@@ -1,10 +1,10 @@
-<h2>new book</h2>
+<h2>Edit book</h2>
 
 <%- include("../partials/_errorMessage") %> 
-<form action="/books" method="POST" >
+<form action="/books/<%= book.id %>/?_method=PUT" method="POST" >
   <div>
     <label for="title">Title</label>
-    <input required type="text" name="title" id="title" />
+    <input required type="text" name="title" id="title" value="<%= book.title %>" />
   </div>
 
   <div>
@@ -40,5 +40,5 @@
 </div>
 
   <a href="/books">Cancel</a>
-  <button>Create</button>
+  <button>Update</button>
 </form>

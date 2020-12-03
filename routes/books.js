@@ -15,32 +15,31 @@ const router = express.Router();
 // GET /books
 
 router.get("/", async (req, res) => {
-    let searchOptions = {}
-  if(req.query.title) {
-     searchOptions = {
-          title: {
-              $regex: req.query.title,
-              $options: 'ig'
-          }
-      }
+  let searchOptions = {};
+  if (req.query.title) {
+    searchOptions = {
+      title: {
+        $regex: req.query.title,
+        $options: "ig",
+      },
+    };
   }
-  if(req.query.publishedBefore) {
-      searchOptions = {...searchOptions,
-        publishDate: {
-            $lte: req.query.publishedBefore,
-          }
-      }
+  if (req.query.publishedBefore) {
+    searchOptions = {
+      ...searchOptions,
+      publishDate: {
+        $lte: req.query.publishedBefore,
+      },
+    };
   }
-  if(req.query.publishedAfter) {
-      searchOptions = {
-          ...searchOptions,
-        publishDate: {
-            $gte: req.query.publishedAfter,
-          }
-      }
+  if (req.query.publishedAfter) {
+    searchOptions = {
+      ...searchOptions,
+      publishDate: {
+        $gte: req.query.publishedAfter,
+      },
+    };
   }
-
-
 
   try {
     const books = await Book.find(searchOptions);
@@ -52,7 +51,7 @@ router.get("/", async (req, res) => {
     res.render("books/index", { books, searchOptions });
   } catch (error) {
     console.log(error.message);
-    res.redirect("/")
+    res.redirect("/");
   }
 });
 
@@ -72,7 +71,6 @@ router.get("/new", async (req, res) => {
 //POST /books
 
 router.post("/", async (req, res) => {
- 
   try {
     const book = new Book({
       title: req.body.title,
@@ -81,27 +79,87 @@ router.post("/", async (req, res) => {
       publishDate: new Date(req.body.publishDate),
       author: req.body.author,
     });
-      saveCover(book, req.body.cover)
-   const newBook = await book.save();
-    res.redirect("/books");
+    saveCover(book, req.body.cover);
+    const newBook = await book.save();
+    res.redirect(`/books/${newBook.id}`);
   } catch (error) {
-    
     console.log(error.message);
     res.redirect("/books/new");
   }
 });
 
+//show book
+router.get("/:id", async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id).populate("author");
+  
+    res.render("books/show", { book });
+  } catch (error) {}
+});
 
+//get the edit book page
+
+router.get("/:id/edit", async (req, res) => {
+  try {
+    const authors = await Author.find({});
+    const book = await Book.findById(req.params.id);
+    res.render("books/edit", { book, authors });
+  } catch (error) {
+    console.log(error.message);
+    res.redirect("/");
+  }
+});
+
+//update book
+router.put("/:id", async (req, res) => {
+  let book;
+  try {
+    book = await Book.findById(req.params.id);
+    book.title = req.body.title;
+    book.publishDate = new Date(req.body.publishDate);
+    book.author = req.body.author
+    book.pageCount = req.body.pageCount
+    book.description = req.body.description
+    if(req.body.cover) {
+      saveCover(book, req.body.cover)
+    }
+   book = await book.save()
+    res.redirect(`/books/${book.id}`)
+  } catch (error) {
+    console.log(error.message)
+    
+    res.redirect(`/books/${book.id}/edit`)
+  }
+});
+
+//delete book
+router.delete("/:id", async(req, res)=> {
+  let book
+  try {
+    book =await Book.findByIdAndDelete(req.params.id)
+    res.redirect("/books")
+  } catch (error) {
+    console.log(error.message)
+    if(book) {
+      res.render(`books/${book.id}`, {errorMessage: error.message, book})
+    }
+    else {
+      res.redirect("/")
+    }
+    
+  }
+  
+
+})
 
 function saveCover(book, coverEncoded) {
-  if(!coverEncoded) return
+  if (!coverEncoded) return;
 
-
-  const cover = JSON.parse(coverEncoded)
-  if(cover && imageTypes.includes(cover.type)) {
-    console.log(cover)
-    book.coverImage = new Buffer.from(cover.data, 'base64')
-    book.coverImageType = cover.type
+  const cover = JSON.parse(coverEncoded);
+  if (cover && imageTypes.includes(cover.type)) {
+    console.log(cover);
+    book.coverImage = new Buffer.from(cover.data, "base64");
+    book.coverImageType = cover.type;
   }
 }
 module.exports = router;
