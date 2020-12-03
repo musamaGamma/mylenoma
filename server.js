@@ -2,7 +2,7 @@
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 const mongoose = require("mongoose")
-const helmet = require("helmet")
+const methodOverride = require("method-override")
 
 const app = express()
 
@@ -32,6 +32,7 @@ app.use(express.static("public"))
 // app.use(helmet())
 app.use(express.urlencoded({limit: "10mb", extended: false}))
 app.use(express.json())
+app.use(methodOverride("_method"))
 //endpoint routes
 app.use("/", require("./routes/index"))
 app.use("/authors", require("./routes/authors"))

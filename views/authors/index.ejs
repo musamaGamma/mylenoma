@@ -6,9 +6,12 @@
 <input type="text" name="name" id="name" value="<%= searchOptions %> ">
 <button>Search</button> 
 </form>
-<ul>
+
 <% authors.forEach(author => {%> 
-<li><%= author.name %> </li>
+<div><%= author.name %> </div>
+<a href="/authors/<%= author.id %>">View</a>
+<a href="/authors/<%= author.id %>/edit">Edit</a>
+<form method="POST" action="/authors/<%= author.id %>/?_method=Delete">
+<button>Delete</button></form>
 <%  })%> 
 
-</ul>
