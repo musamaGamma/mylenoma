@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-   
+    <link rel="stylesheet" href="/stylesheets/main.css" />
     <link
       href="https://unpkg.com/filepond/dist/filepond.css"
       rel="stylesheet"
@@ -16,8 +16,7 @@
 
     <script
       defer
-      src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js" 
-      
+      src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"
     ></script>
     <script
       defer
@@ -32,7 +31,16 @@
     <title>Mybrary</title>
   </head>
   <body>
-    <%- include("../partials/_header") %> <%-
-    include("../partials/_errorMessage") %> <%- body %>
+     
+    <div class="container">
+      <%- include("../partials/_header") %>
+      <div class="inner-container">
+        <%- include("../partials/_errorMessage") %> 
+        <%- body %>
+      </div>
+    </div>
+    
+    
+    
   </body>
 </html>

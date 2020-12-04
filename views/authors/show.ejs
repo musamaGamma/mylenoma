@@ -1,7 +1,7 @@
 <h2><%= author.name %></h2>
-<a href="/authors/<%= author.id %>/edit">Edit</a>
+<a class="btn btn-primary" href="/authors/<%= author.id %>/edit">Edit</a>
 <form method="POST" action="/authors/<%= author.id %>/?_method=Delete">
-  <button>Delete</button>
+  <button class="btn btn-danger">Delete</button>
 </form>
 
 <% if (booksByAuthor.length > 0) { %>

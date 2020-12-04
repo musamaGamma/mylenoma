@@ -1,0 +1,36 @@
+:root {
+    --nav-title-font-size: 4rem;
+    --nav-title-font-weight: bold;
+    --nav-link-font-weight: 300;
+}
+
+.header-title {
+    color: var(--color-text-light);
+    font-size: var(--nav-title-font-size);
+    font-weight: var(--nav-title-font-weight);
+}
+
+.header-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6rem;
+}
+
+.header-nav > ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-link > a {
+    color: var(--color-text-light);
+    font-weight: var(--nav-link-font-weight);
+    padding: 2rem;
+}
+
+.header-link > a:hover, .header-title:hover {
+    color: hsl(var(--color-base-hue), 100%, 95%);
+}
+
