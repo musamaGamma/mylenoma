@@ -1,44 +1,68 @@
 <h2>Edit book</h2>
 
-<%- include("../partials/_errorMessage") %> 
-<form action="/books/<%= book.id %>/?_method=PUT" method="POST" >
-  <div>
-    <label for="title">Title</label>
-    <input required type="text" name="title" id="title" value="<%= book.title %>" />
+<%- include("../partials/_errorMessage") %>
+<form action="/books/<%= book.id %>/?_method=PUT" method="POST">
+  <div class="form-row">
+    <div class="form-item">
+      <label for="title">Title</label>
+      <input
+        required
+        type="text"
+        name="title"
+        id="title"
+        value="<%= book.title %>"
+      />
+    </div>
+
+    <div class="form-item">
+      <label for="author">Author</label>
+      <select required name="author">
+        <% authors.forEach(author => { %> <% if (author.id === book.author) { %>
+        <option selected label="<%= author.name %> " value="<%= author.id %>">
+          <% } else {%>
+        </option>
+
+        <option label="<%= author.name %> " value="<%= author.id %>">
+          <% } %> <% }) %>
+        </option>
+      </select>
+    </div>
   </div>
 
-  <div>
-    <select required name="author">
-      <% authors.forEach(author => { %> <% if (author.id === book.author) { %>
-      <option selected label="<%= author.name %> " value="<%= author.id %>">
-        <% } else {%>
-      </option>
-
-      <option label="<%= author.name %> " value="<%= author.id %>">
-        <% } %>
-         <% }) %>
-      </option>
-    </select>
-  </div>
-
-  <div>
-    <label for="publishDate">Publish Date</label>
-    <input required type="date" name="publishDate" id="publishDate" value="<%=
-    book.publishDate && book.publishDate.toISOString().split("T")[0] %>">
-  </div>
-  <div>
+  <div class="form-row">
+    <div class="form-item">
+      <label for="publishDate">Publish Date</label>
+      <input required type="date" name="publishDate" id="publishDate" value="<%=
+      book.publishDate && book.publishDate.toISOString().split("T")[0] %>">
+    </div>
+    <div class="form-item">
       <label for="pageCount">Page Count</label>
-      <input required type="number" name="pageCount" id="pageCount" min="1" value="<%= book.pageCount %>">
+      <input
+        required
+        type="number"
+        name="pageCount"
+        id="pageCount"
+        min="1"
+        value="<%= book.pageCount %>"
+      />
+    </div>
   </div>
-<div>
-    <label for="cover">Cover</label>
-    <input type="file" name="cover" id="cover" class="filepond">
-</div>
-<div>
-    <label for="description">Description</label>
-<textarea name="description" id="description"><%= book.description %></textarea>
-</div>
 
-  <a class="btn btn-danger" href="/books">Cancel</a>
-  <button class="btn btn-primary">Update</button>
+  <div class="form-row">
+    <div class="form-item no-grow">
+      <label for="cover">Cover</label>
+      <input type="file" name="cover" id="cover" class="filepond" />
+    </div>
+    <div class="form-item">
+      <label for="description">Description</label>
+      <textarea name="description" id="description">
+<%= book.description %></textarea
+      >
+    </div>
+  </div>
+
+  <div class="form-row form-row-end btn-row">
+    <a class="btn btn-danger" href="/books">Cancel</a>
+    <button class="btn btn-primary">Update</button>
+  </div>
 </form>
