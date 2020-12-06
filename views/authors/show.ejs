@@ -6,11 +6,8 @@
     <button class="btn btn-danger">Delete</button>
   </form>
 </div>
-
+<%- include("../partials/_errorMessage") %>
 <% if (booksByAuthor.length > 0) { %>
-<h2>Book By Author</h2>
-<% booksByAuthor.forEach( book => { %>
-<a href="/books/<%= book.id %> ">
-  <div><img height="150" width="100" src="<%= book.coverImagePath %>" /></div>
-</a>
-<% }) %> <% } %>
+<h2>Books By Author</h2>
+<%- include("../partials/_bookGrid", {books: booksByAuthor}) %> 
+ <% } %>
